@@ -1,18 +1,49 @@
-source "status.sh"
-
-updateTime(){
-    local time=`cat status/time`
-    ((time++))
-    echo "$time" > "status/time"
+updateHp(){
+    # [+|-|=] <num>
+    local hp=`cat status/hp`
+    local tmp=0
+    case "$1" in
+        "+")
+            tmp=$(($hp+$2));;
+        "-")
+            tmp=$(($hp-$2));;
+        "=")
+            tmp=$2;;
+        *)
+            exit 2;;
+    esac
+    echo "$tmp" > "status/hp"
+}
+updateHunger(){
+    # 参数格式： [+|-|=] <num>
+    local hunger=$(cat status/hunger)
+    local tmp=0
+    case "$1" in
+        "+")
+            tmp=$(($hunger + $2));;
+        "-")
+            tmp=$(($hunger - $2));;
+        "=")
+            tmp=$2;;
+        *)
+            exit 2;;
+    esac
+    echo "$tmp" > "status/hunger"
 }
 
-while true;do
-    updateTime
-    getLatestValues
-    showTime
-    showHp
-    showHunger
-    showExplored
-    sleep 1
-
-done
+updateExplored(){
+    # 参数格式： [+|-|=] <num>
+    local explored=$(cat status/explored)
+    local tmp=0
+    case "$1" in
+        "+")
+            tmp=$(($explored + $2));;
+        "-")
+            tmp=$(($explored - $2));;
+        "=")
+            tmp=$2;;
+        *)
+            exit 2;;
+    esac
+    echo "$tmp" > "status/explored"
+}

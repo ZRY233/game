@@ -1,6 +1,7 @@
 #!/bin/bash
 source "init.sh"
-source "update.sh" &
+source "loop.sh" &
+source "update.sh"
 source "events.sh"
 source "status.sh"
 
@@ -11,6 +12,7 @@ while true;do
     case "$key" in
         "w")
             echo -n "pressed [w]";;
+            
         *)
             echo -n "$key";;
     esac
