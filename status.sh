@@ -1,19 +1,8 @@
-
-
-
 height=`tput lines`
 width=`tput cols`
 
-getLatestValues(){
-    time=`cat status/time`
-    hp=`cat status/hp`
-    hunger=`cat status/hunger`
-    explored=`cat status/explored`
-}
-getLatestValues
-
 showTime(){
-    # local time=`cat timeGlob`
+    local time=`cat status/time`
     hours=$((time / 3600))
     minutes=$(( (time % 3600) / 60))
     seconds=$((time % 60))
@@ -22,29 +11,28 @@ showTime(){
     echo -n "$output"
 }
 showExplored(){
+    local explored=`cat status/explored`
     local output=`printf "%s%.2f%s" "Explored: " "${explored}" " km"`
     tput cup 1 $((${width}-${#output}))
     echo -n "$output"
 }
 showHp(){
     #HP写左上角
-    local output="HP:\t${hp} ["
+    local hp=`cat status/hp`
+    local output=""
     #总共100hp，但进度条只需要50长就行了
-    for ((a=1;a<${hp}/2;a++));do output+="#"; done
-    for ((a=0;a<50-${hp}/2;a++));do output+=" "; done
-    output+="]"
+    for ((a=1;a<=${hp}/2;a++));do output+="#"; done
     local hpWidth=${#output}    #待用
     tput cup 0 0
-    echo -ne "${output}"
+    printf "%-8s%3d [%-50s]" "HP:" "${hp}" "${output}"
 }
 showHunger(){
     #Hunger写左上角,HP下面
-    local output="Hunger:\t${hunger} ["
+    local hunger=`cat status/hunger`
+    local output=""
     #总共100hunger，但进度条只需要50长就行了
-    for ((a=1;a<${hunger}/2;a++));do output+="#"; done
-    for ((a=0;a<50-${hunger}/2;a++));do output+=" "; done
-    output+="]"
+    for ((a=1;a<=${hunger}/2;a++));do output+="#"; done
     local hungerWidth=${#output}    #待用
     tput cup 1 0
-    echo -ne "${output}"
+    printf "%-8s%3d [%-50s]" "Hunger:" "${hunger}" "${output}"
 }

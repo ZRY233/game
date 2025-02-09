@@ -5,11 +5,12 @@ updateTime(){
     ((time++))
     echo "$time" > "status/time"
 }
+# checkDied(){
 
+# }
 
 while true;do
     updateTime
-    getLatestValues
     showTime
     showHp
     showHunger
