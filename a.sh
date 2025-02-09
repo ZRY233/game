@@ -1,25 +1,19 @@
 #!/bin/bash
+source "init.sh"
+source "update.sh" &
+source "events.sh"
 source "status.sh"
-bye(){
-    clear
-    echo "好吧,再见ヾ(≧▽≦*)o"
-    exit 0
-}
-trap bye SIGINT
-clear
 
-time=0
-hp=100
-hunger=100
 
 while true;do
-    height=`tput lines`
-    width=`tput cols`
-
-    updateTime
-    updateHp
-    updateHunger
-    
-    sleep 1
+    read -n 1 -s key
+    tput cup `tput lines` 0
+    case "$key" in
+        "w")
+            echo -n "pressed [w]";;
+        *)
+            echo -n "$key";;
+    esac
 done
-claer
+
+clear
